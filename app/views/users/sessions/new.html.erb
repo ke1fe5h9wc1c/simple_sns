@@ -1,0 +1,26 @@
+<%= stylesheet_link_tag "users/new", :media => "all" %>
+
+<div class = "container">
+	<div class="wrapper form-signin">  
+    <%= form_for(resource, as: resource_name, :class => "form-signin" , url: session_path(resource_name)) do |f| %>
+      <h3 class="form-signin-heading">ログイン</h3>
+      <hr class="colorgraph"><br>
+      <div class="field">
+        <%= f.email_field :email, :class=>"form-control" , :placeholder => "MailAddress" , autofocus: true, autocomplete: "email" %>
+      </div>
+      <div class="field">
+        <%= f.password_field :password, :class=>"form-control", :placeholder => "PassWord" , autocomplete: "current-password" %>
+      </div>
+      <% if devise_mapping.rememberable? %>
+        <div class="field">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end %>
+      <div class="actions">
+        <%= f.submit "Log in" , class: 'btn btn-lg btn-primary btn-block'%>
+      </div>
+    <% end %>
+      <%= link_to '新規登録', new_user_registration_path %>
+	</div>
+</div>

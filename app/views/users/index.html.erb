@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+</head>
+
+<div class="container">
+  <div class="row">
+    <%# sidebar %>
+    <%# user nav %>
+    <div class="list-group col-3">  
+      <div class="bg-light">
+        <h5 class="text-center"><%= @user["name"] %></h5>
+        <ul class="list-inline">
+          <li class="list-inline-item">Tweet</li>
+            <span class="badge badge-primary badge-pill"><%= @user["Tweet"].count %></span>
+          <li class="list-inline-item">Follow</li>
+            <span class="badge badge-primary badge-pill"><%= @user["Follow"].count %></span>
+          <li class="list-inline-item">Follower</li>
+            <span class="badge badge-primary badge-pill"><%= @user["Follower"].count %></span>
+        </ul>
+      </div>
+      <br>
+    <%# other_user%>
+      <div class="list-group">
+        <p class="list-group-item bg-info text-white">その他のUser</p>
+        <%# 他にUserがいれば表示 %>
+        <% if @other_user.present? %>
+          <% @other_user.each do |i| %>
+            <%= link_to i.name , i ,:class=> "list-group-item" %>
+          <% end %>
+        <% else %>
+          <%# 他にUserがいなければテキストを表示 %>
+          <% 5.times do %>
+            <p class="list-group-item">他のUserが登録されればここに表示されます。</p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <%# min %>
+    <%# 新規投稿 %>
+    <div class="form-group col-6">
+      <%= form_for @tweet  do |f| %>
+        <%= f.text_field :comment, :class => "form-control" %>
+        <%= f.hidden_field :user_id, :value => current_user.id %>
+        <%= f.hidden_field :name, :value => current_user.name %>
+        <%= f.submit "Submit" , :class => "btn btn-primary col-12" %>
+      <% end %>
+    <br>
+    <%# 投稿一覧 %>
+    <%# 投稿があれば表示 %>
+    <% if @tweets.present? %>
+      <% @tweets.reverse.each do |i| %>
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title"><%= i.name %>&nbsp;&nbsp;<%= i.updated_at.strftime("%Y-%m-%d %H:%M") %></h5> 
+          </div>
+          <div class="card-body">
+            <p class="card-text"><%= i.comment %></p>
+          </div>
+        </div>
+        <br>
+      <% end %>
+    <% else %>
+      <%# 投稿がなければテキストを表示 %>
+      <p>投稿はありません。上記フォームから投稿してください</p>
+    <% end %>
+    <%# min %>
+  </div>
+</div>
+</html>
+

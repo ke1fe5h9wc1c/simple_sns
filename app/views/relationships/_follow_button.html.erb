@@ -1,0 +1,15 @@
+<% unless current_user == user %>
+  <%# Follow中でなければFollowボタンを表示 %>
+  <% if current_user.following?(user) %>
+    <%= form_for(current_user.relationships.find_by(follow_id: user.id), html: { method: :delete }) do |f| %>
+      <%= hidden_field_tag :follow_id, user.id %>
+      <%= f.submit 'このUserをFollowする', class: 'btn btn-primary btn-block' %>
+    <% end %>
+  <% else %>
+    <%# Follow中ならFollow解除ボタンを表示 %>
+    <%= form_for(current_user.relationships.build) do |f| %>
+      <%= hidden_field_tag :follow_id, user.id %>
+      <%= f.submit 'Followを解除する', class: 'btn btn-danger btn-block' %>
+    <% end %>
+  <% end %>
+<% end %>
